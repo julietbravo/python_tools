@@ -38,8 +38,7 @@ def tricolormesh(x_vert, y_vert, z=None, vmin=None, vmax=None, edgecolor='none',
         z_clip = z
     
     # Create iterator with correct format for input in PolyCollection()
-    #tri = (zip(x_vert[i,:],y_vert[i,:]) for i in range(x_vert[:,0].size))
-    tri = [zip(x_vert[i,:],y_vert[i,:]) for i in range(x_vert[:,0].size)]
+    tri = (zip(x_vert[i,:],y_vert[i,:]) for i in range(x_vert[:,0].size))
 
     # Create the polygons
     if z is None:
