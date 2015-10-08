@@ -38,7 +38,8 @@ def tricolormesh(x_vert, y_vert, z=None, vmin=None, vmax=None, edgecolor='none',
         z_clip = z
     
     # Create iterator with correct format for input in PolyCollection()
-    tri = (zip(x_vert[i,:],y_vert[i,:]) for i in range(x_vert[:,0].size))
+    #tri = (zip(x_vert[i,:],y_vert[i,:]) for i in range(x_vert[:,0].size))
+    tri = [zip(x_vert[i,:],y_vert[i,:]) for i in range(x_vert[:,0].size)]
 
     # Create the polygons
     if z is None:
@@ -59,3 +60,18 @@ def tricolormesh(x_vert, y_vert, z=None, vmin=None, vmax=None, edgecolor='none',
 
     # Return the polycollection, for drawing a colorbar
     return col
+
+
+if __name__ == "__main__":
+    import netCDF4 as nc4
+
+    nc = nc4.Dataset('example_data/ICON_example_data.nc', 'r')
+    clon  = nc.variables['clon' ][:]                                       
+    clat  = nc.variables['clat' ][:]                                       
+    z_ifc = np.random.random(clon.size)                                        
+    clonv = nc.variables['clon_vertices'][:,:]                                        
+    clatv = nc.variables['clat_vertices'][:,:]                                        
+    nc.close()
+
+    plt.figure()
+    tricolormesh(clonv, clatv, z_ifc, edgecolor='k', linewidth=0.2, cmap=plt.cm.terrain, rasterized=False)
